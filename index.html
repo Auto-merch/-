@@ -30,7 +30,7 @@ button:hover{transform:scale(1.05);}
 .gallery img{width:100%;border-radius:10px;margin-bottom:10px;transition:transform 0.3s;}
 .zoom-btn{position:absolute;top:10px;right:10px;background:white;color:black;border:none;border-radius:50%;width:30px;height:30px;font-weight:bold;cursor:pointer;}
 .zoomed{transform:scale(2);}
-select,input{width:100%;padding:10px;margin:8px 0;background:#111;color:white;border:1px solid #333;border-radius:6px;}
+select,input,textarea{width:100%;padding:10px;margin:8px 0;background:#111;color:white;border:1px solid #333;border-radius:6px;font-size:16px;} /* prevent zoom on mobile */
 </style>
 </head>
 <body>
@@ -68,7 +68,7 @@ Owned by
 </div>
 </div>
 
-<!-- BMW Section -->
+<!-- BMW -->
 <div id="bmw" class="section">
 <button onclick="openPage('home')">← Back</button>
 <h2>BMW</h2>
@@ -91,7 +91,7 @@ Owned by
 </div>
 </div>
 
-<!-- Porsche Section -->
+<!-- Porsche -->
 <div id="porsche" class="section">
 <button onclick="openPage('home')">← Back</button>
 <h2>Porsche</h2>
@@ -106,7 +106,7 @@ Owned by
 </div>
 </div>
 
-<!-- Red Bull Section -->
+<!-- Red Bull -->
 <div id="redbull" class="section">
 <button onclick="openPage('home')">← Back</button>
 <h2>Red Bull</h2>
@@ -121,7 +121,7 @@ Owned by
 </div>
 </div>
 
-<!-- Ferrari Section -->
+<!-- Ferrari -->
 <div id="ferrari" class="section">
 <button onclick="openPage('home')">← Back</button>
 <h2>Ferrari</h2>
@@ -197,6 +197,11 @@ Owned by
       <option>Al-Shati</option>
       <option>Al-Faisaliyah</option>
       <option>Al-Hamra</option>
+      <option>Al-Naseem</option>
+      <option>Al-Rawdah</option>
+      <option>Al-Murjan</option>
+      <option>Al-Jamia</option>
+      <option>Al-Bawadi</option>
       <option>Other</option>
     </select>
     <label>If Other, write here:</label>
@@ -220,14 +225,12 @@ Owned by
 let cart=[];
 let currentItem={};
 
-// OPEN PAGES
 function openPage(page){
   document.querySelectorAll(".section").forEach(s=>s.classList.remove("active"));
   document.getElementById(page).classList.add("active");
   window.scrollTo(0,0);
 }
 
-// SHOW CART FORM
 function showAddToCartForm(name,price){
   currentItem={name,price};
   document.getElementById("formItemName").innerText=name+" - "+price+" SAR";
@@ -239,12 +242,10 @@ function showAddToCartForm(name,price){
   document.getElementById("cartFormModal").style.display="flex";
 }
 
-// CLOSE FORM
 function closeCartForm(){
   document.getElementById("cartFormModal").style.display="none";
 }
 
-// SUBMIT FORM
 function submitCartForm(){
   let size=document.getElementById("formSize").value;
   let districtSelect=document.getElementById("formDistrict").value;
@@ -252,7 +253,7 @@ function submitCartForm(){
   let street=document.getElementById("formStreet").value;
   let payment=document.getElementById("formPayment").value;
 
-  if(!size || !district || !street || !payment){alert("Please fill all fields");return;}
+  if(!size || !district || !street || !payment){alert("Please fill the rest of the fields");return;}
 
   cart.push({...currentItem,size,district,street,payment});
   document.getElementById("cartCount").innerText=cart.length;
@@ -262,14 +263,12 @@ function submitCartForm(){
   alert("Added to cart!");
 }
 
-// REMOVE ITEM
 function removeFromCart(index){
   cart.splice(index,1);
   document.getElementById("cartCount").innerText=cart.length;
   openCart();
 }
 
-// OPEN CART
 function openCart(){
   openPage("cartPage");
   let container=document.getElementById("cartItems");
@@ -282,14 +281,12 @@ function openCart(){
   document.getElementById("cartTotal").innerText="Total: "+total+" SAR";
 }
 
-// ZOOM
 function zoomImage(id){
   const img=document.getElementById(id);
   if(img.classList.contains('zoomed')) img.classList.remove('zoomed');
   else img.classList.add('zoomed');
 }
 
-// CHECKOUT
 function checkout(){
   if(cart.length===0){alert("Cart is empty"); return;}
   let message="Hello, I would like to place an order:%0A";
@@ -298,7 +295,7 @@ function checkout(){
   });
   let total=cart.reduce((sum,item)=>sum+item.price,0);
   message+=`Total: ${total} SAR`;
-  window.open(`https://wa.me/0544783124?text=${message}`,'_blank');
+  window.open(`https://wa.me/966544783124?text=${message}`,'_blank');
 }
 </script>
 
