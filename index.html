@@ -184,14 +184,20 @@ Based in📍(🇸🇦& 🇯🇴)
 <!-- SUCCESS -->
 <div id="success" class="section">
 <h2 style="color:red">Order Sent ✅</h2>
-<p>To check your order contact:<br><b>+966544783124</b></p>
+<p>To check your order contact:<br><b>+966544783124
+or<a href="https://www.instagram.com/auto.merch?igsh=MWowMjhmaWZua2FvZA==" target="_blank" style="color:#ff2d55;">
+@auto.merch
+</a><br>
+</b></p>
 <button onclick="openPage('home')">Back to Home</button>
 </div>
 
 <div class="footer">
 Owners<br><br>
 <a href="https://www.instagram.com/omar_oraiqat2" target="_blank">@omar_oraiqat2</a><br>
-<a href="https://www.instagram.com/auto.merch" target="_blank">@auto.merch</a>
+<a href="https://www.instagram.com/ali.oraiqat?igsh=cnlpaXp0aTd1MHRz" target="_blank" style="color:#ff2d55;">
+@ali.oraiqat
+</a>
 </div>
 
 <form id="orderForm" action="https://formspree.io/f/mwvrglbr" method="POST" target="hiddenFrame" style="display:none;">
@@ -279,8 +285,19 @@ if(this.value === "PayPal"){
 container.style.display = "block"
 if(!paypalRendered){
 paypal.Buttons({
-createOrder:function(data,actions){let total=0;cart.forEach(i=>total+=i.price);return actions.order.create({purchase_units:[{amount:{value:total}}]})},
-onApprove:function(data,actions){return actions.order.capture().then(()=>{paid=true;showMsg('Payment successful')})}
+createOrder:function(data,actions){
+let total=0;
+cart.forEach(i=>total+=i.price);
+
+// convert SAR → USD
+let usdTotal = (total / 3.75).toFixed(2);
+
+return actions.order.create({
+purchase_units:[{
+amount:{value:usdTotal}
+}]
+})
+},onApprove:function(data,actions){return actions.order.capture().then(()=>{paid=true;showMsg('Payment successful')})}
 }).render('#paypal-button-container')
 paypalRendered = true
 }
